@@ -58,6 +58,7 @@
   <div v-if="loggedIn && showQuestion">
 
     <div class="" v-html="question"></div>
+    <div class="" v-html="remainingTime"></div>
 
     <form @submit.prevent="saveAnswer">
       <div>
@@ -91,6 +92,8 @@ export default {
       users: [],
       answers: [],
       questions: [],
+      remainingTime: 0,
+      timer: null,
       personalAccessToken: 'pat6J9R93L312cNl7.c85803cbe5e1b322baa71103d105a494b01d7f78cb4364e87c29b5c536f6e69f',
       url: `https://api.airtable.com/v0/appr5Wxt0W5wd7frb`,
       userTbl: 'tbl6E2lNlkDVCjoXG',
@@ -156,7 +159,7 @@ export default {
       let disabled = false;
       this.answers.forEach(ans => {
         if(ans.fields.UID === this.uid && ans.fields.Day === _day) {
-          if(ans.fields.Closed === true) disabled = true;
+          disabled = true; //if(ans.fields.Closed === true) 
         }
       });
       if(_day > this.day) {
@@ -187,6 +190,7 @@ export default {
 
       if(alreadyActive) {
         this.showMessage = "You've already attempted today's question!";
+        this.showQuestion = false;
         return;
       }
 
@@ -200,6 +204,18 @@ export default {
       };
       
       this.addRecord(userRecord, this.answTbl);
+
+      this.remainingTime = 10;
+      this.timer = setInterval(this.countdown, 1000);
+
+    },
+    countdown() {
+      if (this.remainingTime === 0) {
+        clearTimeout(this.timer);
+        this.saveAnswer();
+      } else {
+        this.remainingTime--;
+      }
     },
     saveAnswer() {
       // const day = new Date().getDate();
@@ -368,6 +384,10 @@ export default {
         border: none;
         transform: translate(0%,-7px);
         padding: 0;
+
+        &:disabled {
+          cursor: default;
+        }
       }
 
     }
