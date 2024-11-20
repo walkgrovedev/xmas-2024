@@ -1,6 +1,6 @@
 <template>
 
-  <div v-if="!loggedIn && haveAccount">
+  <div class="form-container" v-if="!loggedIn && haveAccount">
     <form @submit.prevent="logIn">
       <div>
         <input type="text" id="name" v-model="name" placeholder="Enter your First Name" />
@@ -9,12 +9,13 @@
         <!-- <label for="userId">User ID:</label> -->
         <input type="text" id="passcode" v-model="passcode" placeholder="Enter your Passcode" />
       </div>
-      <button type="submit">Enter</button>
+      <button class="form-btn" type="submit">Enter</button>
     </form>
+    <div class="action-button" @click="haveAccount = false" v-if="!loggedIn && haveAccount">Create a passcode</div>
   </div>
-  <div @click="haveAccount = false" v-if="!loggedIn && haveAccount">Create a passcode</div>
+  
 
-  <div v-if="!loggedIn && !haveAccount">
+  <div class="form-container" v-if="!loggedIn && !haveAccount">
     <form @submit.prevent="newUser">
       <div>
         <input type="text" id="name" v-model="name" placeholder="Enter your First Name" />
@@ -25,10 +26,11 @@
       <div>
         <input type="email" id="email" v-model="email" placeholder="Enter your Email" />
       </div>
-      <button type="submit">Save</button>
+      <button class="form-btn" type="submit">Save</button>
     </form>
+    <div class="action-button" @click="haveAccount = true" v-if="!loggedIn && !haveAccount">Enter a passcode</div>
   </div>
-  <div @click="haveAccount = true" v-if="!loggedIn && !haveAccount">Enter a passcode</div>
+  
 
   <div v-html="showMessage"></div>
 
@@ -78,7 +80,7 @@ export default {
   data() {
     return {
       loggedIn: false,
-      haveAccount: true,
+      haveAccount: false,
       showQuestion: false,
       showMessage: "",
       uid: null,
@@ -333,6 +335,7 @@ export default {
       const suspendObject = JSON.parse(suspendString);
       this.name = suspendObject.name;
       this.passcode = suspendObject.passcode;
+      this.haveAccount = true;
     }
     this.getRecords(['users','answers']);
   },
@@ -354,6 +357,26 @@ export default {
   }
 
   $fade-in: fade-in 0.5s ease-in-out;
+
+  .form-container {
+    border: 2px solid black;
+    padding: 2rem;
+
+    box-shadow: 0 0 10px black;
+   
+    form {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+
+  .action-button {
+    cursor: pointer;
+    font-style: italic;
+    margin-top: 2rem;
+  }
 
   .advent {
     display: grid;
