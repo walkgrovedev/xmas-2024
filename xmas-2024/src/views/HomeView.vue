@@ -285,6 +285,8 @@ export default {
     saveAnswer() {
       // const day = new Date().getDate();
 
+      clearTimeout(this.timer);
+
       const now = new Date();
       let resp = this.respTime;
       this.respTime = now - resp;
