@@ -155,7 +155,9 @@ export default {
       url: `https://api.airtable.com/v0/appr5Wxt0W5wd7frb`,
       userTbl: 'tbl6E2lNlkDVCjoXG',
       answTbl: 'tblAg38MzzwieSN0k',
-      quesTbl: 'tblmLkhbn5c4ObeCL'
+      quesTbl: 'tblmLkhbn5c4ObeCL',
+      testing: true,
+      monthActive: 12
     };
   },
   methods: {
@@ -738,7 +740,7 @@ export default {
           }
         }
 
-        &.door8, &.door2, &.door21, &.door24, &.door16 {
+        &.door8, &.door3, &.door21, &.door24, &.door16 {
           span {
             background-color: rgba($light-yellow, 0.4);
           }
@@ -750,7 +752,7 @@ export default {
           }
         }
 
-        &.door1, &.door20, &.door11, &.door23 {
+        &.door1, &.door20, &.door11, &.door23, &.door2 {
           span {
             background-color: rgba($blue, 0.4);
           }
