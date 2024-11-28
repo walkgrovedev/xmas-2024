@@ -5,6 +5,7 @@ $btn-font: "Kranky", serif;
 
 $pale: #f7f7f3;
 $gold: #b19680;
+$leaf-green: #90a77b; //#516e37;
 $dark-green: #4a6234;
 $dark-red: #d42e10;
 
@@ -21,7 +22,9 @@ $mid-green: #537e74;
 $darker-green: #416252;
 $blue: #3d4655;
 
-
+body {
+  margin: 0;
+}
 
 #app {
   display: flex;

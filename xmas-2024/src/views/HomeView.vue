@@ -1,7 +1,15 @@
 <template>
   <div class="main-container" :class="{ 'hide': loggedIn }">
 
+    <div class="welcome-container" v-if="!loggedIn">
+      <div class='title'>Welcome</div>
+      <div class="body">To our 2024 Advent Calendar Quiz!</div>
+      <div class="body-small">Login to view the advent calendar.<br/>Select a door to answer the question - a new door will unlock each day! :0)</div>
+    </div>
+
     <div class="form-container" v-if="!loggedIn && haveAccount">
+      <div class='form-title'>Login</div>
+      <div class="form-body">Ensure your details are entered below, then select Enter!</div>
       <form @submit.prevent="logIn">
         <div>
           <input type="text" id="name" v-model="name" placeholder="Enter your First Name" />
@@ -17,6 +25,8 @@
     
 
     <div class="form-container" v-if="!loggedIn && !haveAccount">
+      <div class='form-title'>Create login</div>
+      <div class="form-body">Enter your details below - you'll only have to do this once.<br/>The passcode can be anything you wish and will save automatically to your browser.</div>
       <form @submit.prevent="newUser">
         <div>
           <input type="text" id="name" v-model="name" placeholder="Enter your First Name" />
@@ -35,11 +45,11 @@
 
     <div class="message" v-html="showMessage"></div>
 
-    <div v-if="loggedIn && !showQuestion" class="advent-background">
-      <img class="advent-background" src="/assets/XMAS.jpg" />
+    <div v-if="loggedIn" class="advent-container" :load="setHeightWidths()" :class="{ 'show': dataLoaded }">
+      <img ref="adventBgEl" id="adventBgEl" class="advent-background" src="/assets/XMAS.jpg" />
 
-      <div class="advent">
-        <div class="advent-door-container" v-for="(day, index) in questions" :key="index" :style="{ 'grid-area': 'd'+index }" :class="{ 'showing': getShowingDoor(day.fields.Day) }">
+      <div class="advent" ref="adventEl" id="adventEl">
+        <div class="advent-door-container" v-for="(day, index) in questions" :key="index" :style="{ 'grid-area': 'd'+index }" :class="{ 'showing': getShowingDoor(day.fields.Day), 'wait': quesAnswered === false && day.fields.Day === dayQ, 'disappear': quesAnswered === true && day.fields.Day === dayQ }">
           <button class="advent-door" @click="openQuestion(day.fields.Day)" :disabled="getOpenDoor(day.fields.Day)" :class="'door'+day.fields.Day">
             <img :src="'/assets/day' + day.fields.Day + '.svg'" />
             <span v-html="day.fields.Day"></span>
@@ -62,17 +72,23 @@
       </ul> -->
     </div>
 
-    <div v-if="loggedIn && showQuestion">
+    <div class="question-container" v-if="loggedIn && showQuestion">
 
-      <div class="" v-html="question"></div>
-      <div class="" v-html="remainingTime"></div>
+      <div class="fade"></div>
 
-      <form @submit.prevent="saveAnswer">
-        <div>
-          <input type="text" id="answer" v-model="answer" placeholder="Enter your Answer" />
-        </div>
-        <button type="submit">Save</button>
-      </form>
+      <div class="question">
+
+        <div class="" v-html="question"></div>
+        <div class="timer" v-html="remainingTime"></div>
+
+        <form @submit.prevent="saveAnswer">
+          <div>
+            <input type="text" id="answer" v-model="answer" placeholder="Answer" style="width: 100px"/>
+          </div>
+          <button class="form-btn" type="submit">Save</button>
+        </form>
+
+      </div>
 
     </div>
 
@@ -83,18 +99,50 @@
 <script>
 import axios from 'axios';
 
+import { ref, onMounted, nextTick } from 'vue'
+
 export default {
+  setup() {
+    // let adventEl = ref();
+    // let adventBgEl = ref();
+
+    window.addEventListener('resize', setHeightWidths);
+
+    function setHeightWidths() {
+
+      var adventEl = document.getElementById('adventEl');
+      var adventBgEl = document.getElementById('adventBgEl');
+      if(adventEl && adventBgEl) {
+        const h = adventBgEl.getBoundingClientRect().height;
+        const w = adventBgEl.getBoundingClientRect().width;
+        const heigthVar = h+'px';
+        const widthVar = w+'px';
+        adventEl.style.height = heigthVar;
+        adventEl.style.width = widthVar;
+      }
+    }
+
+    return {
+      // adventEl,
+      // adventBgEl,
+      setHeightWidths
+    }
+  },
   data() {
     return {
       loggedIn: false,
       haveAccount: false,
       showQuestion: false,
+      dataLoaded: false,
+      quesAnswered: false,
       showMessage: "",
       uid: null,
       name: null,
       passcode: null,
       email: null,
       day: null,
+      dayQ: null,
+      month: null,
       question: null,
       answer: null,
       respTime: null,
@@ -111,7 +159,7 @@ export default {
     };
   },
   methods: {
-    logIn() {
+    async logIn() {
       this.showMessage = "";
       // check against the table - if passcode exists
       let exists = false;
@@ -130,7 +178,11 @@ export default {
         return;
       }
 
+      this.day = new Date().getDate();
+      this.month = new Date().getMonth() + Number(1);
+
       this.loggedIn = true;
+
       window.localStorage.setItem('xmas-2024', JSON.stringify({name: this.name, passcode: this.passcode}));
       this.getRecords(['questions']);
     },
@@ -157,8 +209,9 @@ export default {
       this.addRecord(userRecord, this.userTbl);
     },
     openQuestion(_day) {
-      this.day = _day;
+      this.dayQ = _day;
       this.showQuestion = true;
+      this.quesAnswered = false;
       this.questions.forEach(ques => {
         if(ques.fields.Day === _day) this.question = ques.fields.Question;
       });
@@ -171,7 +224,7 @@ export default {
           disabled = true; //if(ans.fields.Closed === true) 
         }
       });
-      if(_day > this.day) {
+      if(_day > this.day) { // || this.month !== 12
         disabled = true;
       }
       return disabled;
@@ -179,19 +232,17 @@ export default {
     getShowingDoor(_day) {
       let shown = true;
       this.answers.forEach(ans => {
-        if(ans.fields.UID === this.uid && ans.fields.Day === _day) {
+        if((ans.fields.UID === this.uid && ans.fields.Day === _day)) {
           shown = false;
         }
       });
       return shown;
     },
     answerSetup() {
-      // const day = new Date().getDate();
-
       let alreadyActive = false;
       let closed = false;
       this.answers.forEach(ans => {
-        if(ans.fields.UID === this.uid && ans.fields.Day === this.day) {
+        if(ans.fields.UID === this.uid && ans.fields.Day === this.dayQ) {
           alreadyActive = true;
           closed = ans.fields.Closed;
         }
@@ -208,7 +259,7 @@ export default {
       const userRecord = {
         fields: {
           UID: this.uid,
-          Day: this.day
+          Day: this.dayQ
         },
       };
       
@@ -236,7 +287,7 @@ export default {
       let rId = null;
       let recordId = null;
       this.answers.forEach(ans => {
-        if(ans.fields.UID === this.uid && ans.fields.Day === this.day) {
+        if(ans.fields.UID === this.uid && ans.fields.Day === this.dayQ) {
           rId = ans.UID;
           recordId = ans.id;
         }
@@ -246,7 +297,7 @@ export default {
 
       const updateFields = {
         UID: rId,
-        Day: this.day,
+        Day: this.dayQ,
         Closed: true,
         Answer: this.answer,
         ResponseTime: this.respTime
@@ -254,6 +305,8 @@ export default {
       
       this.updateRecord(this.answTbl, updateFields, recordId);
       this.showQuestion = false;
+      this.quesAnswered = true;
+      // this.dayQ = null;
     },
     getRecords(_tbl) {
       _tbl.forEach(table => {
@@ -295,7 +348,7 @@ export default {
               break;
             case 'questions':
               this.questions = response.data.records;
-              console.log(this.questions);
+              this.dataLoaded = true;
               break;
           }
         } catch (error) {
@@ -359,11 +412,19 @@ export default {
     0% {
       opacity: 0;
     }
-    50% {
-      opacity: 0;
-    }
     100% {
       opacity: 1;
+    }
+  }
+
+  @keyframes scale-out {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0);
+      opacity: 0;
     }
   }
 
@@ -372,6 +433,8 @@ export default {
   .main-container {
 
     font-size: 2rem;
+    position: relative;
+    overflow: hidden;
 
     border: 5px solid $gold;
     width: calc(100% - 4rem);
@@ -380,6 +443,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     position: relative;
 
@@ -416,8 +480,36 @@ export default {
 
     &.hide {
       &:before, &:after {
-        display: none;
+        // display: none;
       }
+      // width: 100%;
+      // height: 100vh;
+      // border: none;
+    }
+
+    .welcome-container {
+      padding: 2rem;
+      text-align: center;
+      z-index: 1;
+      // max-width: 50%;
+      background: $white-opacity;
+      border-radius: 2rem;
+      margin-bottom: 1rem
+    }
+
+    .title {
+      color: $leaf-green;
+      font-size: 150%;
+    }
+
+    .body {
+      padding: 1rem 0;
+    }
+
+    .body-small {
+      font-family: 'Open sans', sans-serif;
+      font-size: 50%;
+      font-weight: 200;
     }
 
     .message {
@@ -426,6 +518,69 @@ export default {
       bottom: 5%;
     }
   }
+
+  .question-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      z-index: 2;
+
+      .fade {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        background-color: $white-opacity;
+        pointer-events: none;
+      }
+
+      .question {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: auto;
+        max-width: 75%;
+        min-width: 20rem;;
+        height: auto;
+        transform: translate(-50%,-50%);
+
+        padding: 2rem;
+        z-index: 1;
+        background-color: $pale;
+
+        box-shadow: 0 0 10px $gold;
+        border-radius: 2rem;
+
+        input {
+          font-size: 100%;
+          border: none;
+          text-align: center;
+        }
+
+        .timer {
+          border: 3px solid $dark-red;
+          background-color: $pale;
+          border-radius: 100%;
+          width: 4rem;
+          height: 4rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          position: absolute;
+          top: 0;
+          right: 0;
+          transform: translate(-50%,-50%);
+        }
+
+        text-align: center;
+      }
+    }
 
   .form-container {
     // border: 2px solid black;
@@ -436,6 +591,20 @@ export default {
     box-shadow: 0 0 10px $gold;
     border-radius: 2rem;
 
+    text-align: center;
+
+    .form-title {
+      color: $dark-red;
+      font-size: 125%;
+    }
+
+    .form-body {
+      font-family: 'Open sans', sans-serif;
+      font-size: 50%;
+      font-weight: 200;
+      padding-bottom: 2rem;
+    }
+
     form {
       display: flex;
       align-items: center;
@@ -444,6 +613,9 @@ export default {
 
       input {
         font-size: 100%;
+        border: none;
+        text-align: center;
+        margin: 0.25rem 0;
       }
     }
   }
@@ -456,32 +628,51 @@ export default {
     color: $dark-green;
   }
 
-  .advent-background {
-    width: 100%;
-    height: 100%;
-
-    // background: url('/assets/XMAS.jpg');
-    // background-size: contain;
-    // background-position: top left;
-    // background-repeat: no-repeat;
+  .advent-container {
+    z-index: 1;
+    
     // width: 100%;
-    // height: 100vh;
+    // max-height: 100vh;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
 
-    // z-index: 1;
+    max-width: 1440px;
+
+    opacity: 0;
+    &.show {
+      animation: fade-in;
+      animation-duration: 1s;
+      opacity: 1;
+    }
+  }
+
+  .advent-background {
+
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
   }
 
   .advent {
 
-    padding: 1.01% 0.65% 1.01% 0.75%;
+    position: relative;
+    overflow: hidden;
+
+    // display: none!important;
+    padding: 0.4% 0.5% 0.9% 0.5%;
     box-sizing: border-box;
 
     position: absolute;
     width: 100%;
     height: 100%;
-    top:0;
-    left:0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    // opacity: 0.75;
 
     display: grid;
+    grid-template: 4fr 4fr;
     grid-template-columns: auto auto auto;
     grid-template-areas:
       'd0 d0 d1 d1 d2 d2 d3 d3 d4 d4 d5 d5 d6 d6'
@@ -500,6 +691,16 @@ export default {
       font-size: 30px;
 
       opacity: 0;
+      &.disappear {
+        animation: scale-out;
+        animation-duration: 1s;
+      }
+      &.wait {
+        opacity: 1;
+        span {
+          border: 5px solid $red;
+        }
+      }
       &.showing {
         opacity: 1;
       }
@@ -528,56 +729,30 @@ export default {
         &.door5, &.door22, &.door6, &.door7 {
           span {
             background-color: rgba($red, 0.4);
-            // border: 6px solid $red;
           }
         }
 
         &.door18, &.door13, &.door25, &.door10, &.door9, &.door14 {
           span {
             background-color: rgba($orange, 0.4);
-            // border: 6px solid $orange;
           }
         }
-
-        // &.door2, &.door21 {
-        //   span {
-        //     background-color: rgba($yellow, 0.4);
-        //     border: 6px solid $yellow;
-        //   }
-        // }
 
         &.door8, &.door2, &.door21, &.door24, &.door16 {
           span {
             background-color: rgba($light-yellow, 0.4);
-            // border: 6px solid $light-yellow;
           }
         }
-
-        // &.door1, &.door5 {
-        //   span {
-        //     background-color: rgba($light-green, 0.4);
-        //     border: 6px solid $light-green;
-        //   }
-        // }
 
         &.door19, &.door12, &.door17, &.door15, &.door4 {
           span {
             background-color: rgba($mid-green, 0.4);
-            // border: 6px solid $mid-green;
           }
         }
-
-        // &.door9, &.door4 {
-        //   span {
-        //     background-color: rgba($darker-green, 0.4);
-        //     border: 6px solid $darker-green;
-        //   }
-        // }
 
         &.door1, &.door20, &.door11, &.door23 {
           span {
             background-color: rgba($blue, 0.4);
-            // border: 6px solid $blue;
           }
         }
 
@@ -598,6 +773,19 @@ export default {
           z-index: 0;
           // -webkit-text-stroke: 1px $white;
           font-size: 150%;
+
+          @media(max-width: 1280px){
+            font-size: 125%;
+          }
+
+          @media(max-width: 1024px){
+            font-size: 100%;
+          }
+
+          @media(max-width: 700px){
+            font-size: 40%;
+            padding: 0.25rem;
+          }
         }
 
         img {
@@ -614,9 +802,13 @@ export default {
 
         &:disabled {
           cursor: default;
+          span {
+            // opacity: 0.5;
+          }
         }
       }
 
     }
+
   }
 </style>
