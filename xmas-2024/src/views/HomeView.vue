@@ -408,7 +408,26 @@ export default {
 
 <style scoped lang="scss" >
 
-@import "../assets/main.scss";
+  // @import "../assets/main.scss";
+
+  $pale: #f7f7f3;
+  $gold: #b19680;
+  $leaf-green: #90a77b; //#516e37;
+  $dark-green: #4a6234;
+  $dark-red: #d42e10;
+
+  $white: #fff;
+  $white-opacity: rgba(255, 255, 255, 0.8);
+
+
+  $red: #f40a03;
+  $orange: #ff7c22;
+  $yellow: #fdbc03;
+  $light-yellow: #fece4f;
+  $light-green: #8caa7e;
+  $mid-green: #537e74;
+  $darker-green: #416252;
+  $blue: #3d4655;
 
   @keyframes fade-in {
     0% {
@@ -517,7 +536,7 @@ export default {
     .message {
       color: $dark-red;
       position: absolute;
-      bottom: 5%;
+      bottom: 1%;
     }
   }
 
