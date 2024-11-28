@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 155.6 189.59">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #c1272d;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: none;
+      }
+
+      .cls-3 {
+        fill: #c90;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+
+      .cls-5 {
+        fill: #a7a9ac;
+      }
+
+      .cls-6 {
+        fill: #231f20;
+      }
+
+      .cls-7 {
+        fill: url(#_6_dpi_30_);
+      }
+
+      .cls-8 {
+        fill: #911d22;
+      }
+
+      .cls-9 {
+        fill: #ceb15f;
+      }
+
+      .cls-10 {
+        fill: #006837;
+      }
+
+      .cls-11 {
+        fill: #004e29;
+      }
+    </style>
+    <pattern id="_6_dpi_30_" data-name="6 dpi 30%" x="0" y="0" width="48" height="48" patternTransform="translate(-4681.8 -2760.11) rotate(-135) scale(.41 -.41)" patternUnits="userSpaceOnUse" viewBox="0 0 48 48">
+      <g>
+        <rect class="cls-2" y="0" width="48" height="48"/>
+        <g>
+          <circle class="cls-6" cx="24" cy="48" r="3.6"/>
+          <circle class="cls-6" cx="48" cy="48" r="3.6"/>
+          <circle class="cls-6" cx="24" cy="24" r="3.6"/>
+          <circle class="cls-6" cx="48" cy="24" r="3.6"/>
+          <circle class="cls-6" cx="36" cy="36" r="3.6"/>
+          <circle class="cls-6" cx="12" cy="36" r="3.6"/>
+          <circle class="cls-6" cx="36" cy="12" r="3.6"/>
+          <circle class="cls-6" cx="12" cy="12" r="3.6"/>
+        </g>
+        <g>
+          <circle class="cls-6" cy="48" r="3.6"/>
+          <circle class="cls-6" cy="24" r="3.6"/>
+        </g>
+        <g>
+          <circle class="cls-6" cx="24" cy="0" r="3.6"/>
+          <circle class="cls-6" cx="48" cy="0" r="3.6"/>
+        </g>
+        <circle class="cls-6" cy="0" r="3.6"/>
+      </g>
+    </pattern>
+  </defs>
+  <g id="Object">
+    <g>
+      <g>
+        <circle class="cls-10" cx="119.25" cy="101.39" r="30.58" transform="translate(.07 202.86) rotate(-80.78)"/>
+        <path class="cls-5" d="m119.08,64.12c-1.35,0-2.44-1.09-2.44-2.44V2.44c0-1.35,1.09-2.44,2.44-2.44s2.44,1.09,2.44,2.44v59.23c0,1.35-1.09,2.44-2.44,2.44Z"/>
+        <path class="cls-7" d="m118.6,131.97c-14,0-30.58-13.69-30.58-30.58s16.58-30.58,30.58-30.58v61.15Z"/>
+        <rect class="cls-11" x="96.6" y="96.02" width="59" height="13"/>
+        <path class="cls-4" d="m123.86,126.62c9.39,0,17-7.61,17-17l-17,17Z"/>
+        <rect class="cls-9" x="113.6" y="67.02" width="13" height="8"/>
+        <rect class="cls-3" x="96.6" y="102.02" width="59" height="7"/>
+      </g>
+      <g>
+        <path class="cls-5" d="m41.67,88.21c-1.35,0-2.44-1.09-2.44-2.44V2.44c0-1.35,1.09-2.44,2.44-2.44s2.44,1.09,2.44,2.44v83.32c0,1.35-1.09,2.44-2.44,2.44Z"/>
+        <circle class="cls-1" cx="41.83" cy="147.39" r="41.83" transform="translate(-53.22 27.23) rotate(-22.5)"/>
+        <path class="cls-4" d="m74.16,143.52c0-13.59-11.02-24.61-24.61-24.61l24.61,24.61Z"/>
+        <path class="cls-7" d="m42.6,189.22c-24,0-41.83-18.73-41.83-41.83s17.83-41.83,41.83-41.83v83.67Z"/>
+        <rect class="cls-3" x="33.6" y="94.02" width="17" height="18"/>
+        <path class="cls-8" d="m83.76,147.76c0,23.03-18.73,41.83-41.83,41.83S.09,170.79.09,147.76l14.44,13.79,13.14-13.79,14.09,13.79,12.67-13.79,15.08,13.79,14.25-13.79Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 143.41 164.38">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: #c90;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-4 {
+        fill: #231f20;
+      }
+
+      .cls-5 {
+        fill: url(#_6_dpi_30_);
+      }
+
+      .cls-6 {
+        fill: #d1d3d4;
+      }
+
+      .cls-7 {
+        fill: #006837;
+      }
+
+      .cls-8 {
+        fill: #004e29;
+      }
+    </style>
+    <pattern id="_6_dpi_30_" data-name="6 dpi 30%" x="0" y="0" width="48" height="48" patternTransform="translate(-4924.22 -2987.95) rotate(-135) scale(.41 -.41)" patternUnits="userSpaceOnUse" viewBox="0 0 48 48">
+      <g>
+        <rect class="cls-1" y="0" width="48" height="48"/>
+        <g>
+          <circle class="cls-4" cx="24" cy="48" r="3.6"/>
+          <circle class="cls-4" cx="48" cy="48" r="3.6"/>
+          <circle class="cls-4" cx="24" cy="24" r="3.6"/>
+          <circle class="cls-4" cx="48" cy="24" r="3.6"/>
+          <circle class="cls-4" cx="36" cy="36" r="3.6"/>
+          <circle class="cls-4" cx="12" cy="36" r="3.6"/>
+          <circle class="cls-4" cx="36" cy="12" r="3.6"/>
+          <circle class="cls-4" cx="12" cy="12" r="3.6"/>
+        </g>
+        <g>
+          <circle class="cls-4" cy="48" r="3.6"/>
+          <circle class="cls-4" cy="24" r="3.6"/>
+        </g>
+        <g>
+          <circle class="cls-4" cx="24" cy="0" r="3.6"/>
+          <circle class="cls-4" cx="48" cy="0" r="3.6"/>
+        </g>
+        <circle class="cls-4" cy="0" r="3.6"/>
+      </g>
+    </pattern>
+  </defs>
+  <g id="Object">
+    <g>
+      <path class="cls-8" d="m114.83,140.72h-10v-15.03h10c7.47,0,13.55-6.08,13.55-13.55v-24.05c0-7.47-6.08-13.55-13.55-13.55h-10v-15.03h10c15.76,0,28.58,12.82,28.58,28.58v24.05c0,15.76-12.82,28.58-28.58,28.58Z"/>
+      <rect class="cls-7" y="47.6" width="104.83" height="116.78"/>
+      <rect class="cls-5" y="47.6" width="29.63" height="116.78"/>
+      <path class="cls-2" d="m29.63,43.19c-1.14,0-2.07-.93-2.07-2.07v-19.52c0-1.14.93-2.07,2.07-2.07h14.13V2.07c0-1.14.93-2.07,2.07-2.07s2.07.93,2.07,2.07v19.54c0,1.14-.93,2.07-2.07,2.07h-14.13v17.45c0,1.14-.93,2.07-2.07,2.07Z"/>
+      <path class="cls-2" d="m47.91,51.95c-1.14,0-2.07-.93-2.07-2.07v-19.52c0-1.14.93-2.07,2.07-2.07h14.13V10.82c0-1.14.93-2.07,2.07-2.07s2.07.93,2.07,2.07v19.54c0,1.14-.93,2.07-2.07,2.07h-14.13v17.45c0,1.14-.93,2.07-2.07,2.07Z"/>
+      <path class="cls-2" d="m64.1,64.97c-1.14,0-2.07-.93-2.07-2.07v-19.52c0-1.14.93-2.07,2.07-2.07h14.13v-17.47c0-1.14.93-2.07,2.07-2.07s2.07.93,2.07,2.07v19.54c0,1.14-.93,2.07-2.07,2.07h-14.13v17.45c0,1.14-.93,2.07-2.07,2.07Z"/>
+      <polygon class="cls-8" points="97.18 157.18 60.14 157.18 97.18 119.23 97.18 157.18"/>
+      <g>
+        <polygon class="cls-6" points="52.42 71.87 61.18 89.63 80.79 92.48 66.6 106.31 69.95 125.84 52.42 116.62 34.88 125.84 38.23 106.31 24.04 92.48 43.65 89.63 52.42 71.87"/>
+        <polygon class="cls-3" points="52.42 98.85 66.6 106.31 80.79 92.48 52.42 98.85"/>
+      </g>
+    </g>
+  </g>
+</svg>

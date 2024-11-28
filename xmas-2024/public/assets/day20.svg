@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 129.76 181.23">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #c1272d;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: none;
+      }
+
+      .cls-3 {
+        fill: #c90;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+
+      .cls-5 {
+        fill: #231f20;
+      }
+
+      .cls-6 {
+        fill: url(#_6_dpi_30_);
+      }
+
+      .cls-7 {
+        fill: #d1d3d4;
+      }
+
+      .cls-8 {
+        fill: #414042;
+      }
+
+      .cls-9 {
+        fill: #911d22;
+      }
+
+      .cls-10 {
+        fill: #ceb15f;
+      }
+
+      .cls-11 {
+        fill: #006837;
+      }
+    </style>
+    <pattern id="_6_dpi_30_" data-name="6 dpi 30%" x="0" y="0" width="48" height="48" patternTransform="translate(-5573.03 -3205.61) rotate(-135) scale(.41 -.41)" patternUnits="userSpaceOnUse" viewBox="0 0 48 48">
+      <g>
+        <rect class="cls-2" y="0" width="48" height="48"/>
+        <g>
+          <circle class="cls-5" cx="24" cy="48" r="3.6"/>
+          <circle class="cls-5" cx="48" cy="48" r="3.6"/>
+          <circle class="cls-5" cx="24" cy="24" r="3.6"/>
+          <circle class="cls-5" cx="48" cy="24" r="3.6"/>
+          <circle class="cls-5" cx="36" cy="36" r="3.6"/>
+          <circle class="cls-5" cx="12" cy="36" r="3.6"/>
+          <circle class="cls-5" cx="36" cy="12" r="3.6"/>
+          <circle class="cls-5" cx="12" cy="12" r="3.6"/>
+        </g>
+        <g>
+          <circle class="cls-5" cy="48" r="3.6"/>
+          <circle class="cls-5" cy="24" r="3.6"/>
+        </g>
+        <g>
+          <circle class="cls-5" cx="24" cy="0" r="3.6"/>
+          <circle class="cls-5" cx="48" cy="0" r="3.6"/>
+        </g>
+        <circle class="cls-5" cy="0" r="3.6"/>
+      </g>
+    </pattern>
+  </defs>
+  <g id="Object">
+    <g>
+      <path class="cls-3" d="m5.58,158.28h13.2v13.2c0,1.15.93,2.09,2.09,2.09s2.09-.93,2.09-2.09v-14.42l16.79-16.79c.81-.81.81-2.14,0-2.95-.41-.41-.94-.61-1.47-.61s-1.07.2-1.47.61l-16.79,16.79H5.58c-1.15,0-2.09.93-2.09,2.09s.93,2.09,2.09,2.09Z"/>
+      <path class="cls-3" d="m32.32,165.94h13.2v13.2c0,1.15.93,2.09,2.09,2.09s2.09-.93,2.09-2.09v-14.42l16.79-16.79c.81-.81.81-2.14,0-2.95-.41-.41-.94-.61-1.47-.61s-1.07.2-1.47.61l-16.79,16.79h-14.42c-1.15,0-2.09.93-2.09,2.09s.93,2.09,2.09,2.09Z"/>
+      <path class="cls-1" d="m121.03,104.65c-4.24-15.18-20.57-24.54-39.63-24.35-5.43-21.88-21.14-37.7-39.68-37.7C18.68,42.6,0,67.03,0,97.16c0,24.09,11.93,44.53,28.49,51.76,15.51,7.08,39.69,8.03,56.72,3.27,25.15-7.03,41.19-28.31,35.81-47.54Z"/>
+      <circle class="cls-8" cx="21.92" cy="71.38" r="3.48"/>
+      <circle class="cls-8" cx="48.67" cy="71.38" r="3.48"/>
+      <polygon class="cls-10" points="45.23 76.82 36.01 92.79 26.79 76.82 45.23 76.82"/>
+      <path class="cls-4" d="m9.63,102.85c0,24.26,19.66,43.92,43.92,43.92L9.63,102.85Z"/>
+      <g>
+        <path class="cls-9" d="m46.93,92.79c0,22.87,18.54,41.42,41.42,41.42s41.42-18.54,41.42-41.42H46.93Z"/>
+        <path class="cls-6" d="m88.35,92.79v41.42c22.87,0,41.42-18.54,41.42-41.42h-41.42Z"/>
+      </g>
+      <g>
+        <polygon class="cls-11" points="19.98 50.78 41.71 2.59 63.45 50.78 19.98 50.78"/>
+        <polygon class="cls-6" points="41.71 2.59 41.71 50.78 63.45 50.78 41.71 2.59"/>
+        <path class="cls-7" d="m65.34,48.43c0,1.92-1.56,3.48-3.48,3.48H21.56c-1.92,0-3.48-1.56-3.48-3.48h0c0-1.92,1.56-3.48,3.48-3.48h40.3c1.92,0,3.48,1.56,3.48,3.48h0Z"/>
+        <path class="cls-7" d="m46.29,4.57c0,2.53-2.05,4.57-4.57,4.57s-4.57-2.05-4.57-4.57,2.05-4.57,4.57-4.57,4.57,2.05,4.57,4.57Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -40,7 +40,8 @@
 
       <div class="advent">
         <div class="advent-door-container" v-for="(day, index) in questions" :key="index" :style="{ 'grid-area': 'd'+index }" :class="{ 'showing': getShowingDoor(day.fields.Day) }">
-          <button class="advent-door" @click="openQuestion(day.fields.Day)" :disabled="getOpenDoor(day.fields.Day)">
+          <button class="advent-door" @click="openQuestion(day.fields.Day)" :disabled="getOpenDoor(day.fields.Day)" :class="'door'+day.fields.Day">
+            <img :src="'/assets/day' + day.fields.Day + '.svg'" />
             <span v-html="day.fields.Day"></span>
           </button>
         </div>
@@ -471,7 +472,7 @@ export default {
 
   .advent {
 
-    padding: 1% 0.75% 1.1% 1%;
+    padding: 1.01% 0.65% 1.01% 0.75%;
     box-sizing: border-box;
 
     position: absolute;
@@ -495,7 +496,7 @@ export default {
       // background-color: $white-opacity;
       text-align: center;
       // padding: 10px;
-      margin: 5px;
+      // margin: 1px;
       font-size: 30px;
 
       opacity: 0;
@@ -521,18 +522,94 @@ export default {
         margin: 0;
         padding: 0 0.5rem;
 
+        background-color: $white;
+        // border-radius: 1rem;
+
+        &.door5, &.door22, &.door6, &.door7 {
+          span {
+            background-color: rgba($red, 0.4);
+            // border: 6px solid $red;
+          }
+        }
+
+        &.door18, &.door13, &.door25, &.door10, &.door9, &.door14 {
+          span {
+            background-color: rgba($orange, 0.4);
+            // border: 6px solid $orange;
+          }
+        }
+
+        // &.door2, &.door21 {
+        //   span {
+        //     background-color: rgba($yellow, 0.4);
+        //     border: 6px solid $yellow;
+        //   }
+        // }
+
+        &.door8, &.door2, &.door21, &.door24, &.door16 {
+          span {
+            background-color: rgba($light-yellow, 0.4);
+            // border: 6px solid $light-yellow;
+          }
+        }
+
+        // &.door1, &.door5 {
+        //   span {
+        //     background-color: rgba($light-green, 0.4);
+        //     border: 6px solid $light-green;
+        //   }
+        // }
+
+        &.door19, &.door12, &.door17, &.door15, &.door4 {
+          span {
+            background-color: rgba($mid-green, 0.4);
+            // border: 6px solid $mid-green;
+          }
+        }
+
+        // &.door9, &.door4 {
+        //   span {
+        //     background-color: rgba($darker-green, 0.4);
+        //     border: 6px solid $darker-green;
+        //   }
+        // }
+
+        &.door1, &.door20, &.door11, &.door23 {
+          span {
+            background-color: rgba($blue, 0.4);
+            // border: 6px solid $blue;
+          }
+        }
+
+
         span {
           // transform: translate(0%,-100%);
-          padding: 1rem;
+          padding: 0.5rem;
+          margin: 0.25rem;
           box-sizing: border-box;
-          background-color: $white-opacity; //$white;
-          border-radius: 1rem;
-          width: 100%;
-          height: 100%;
+          // background-color: $white-opacity; //$white;
+          border-radius: 0 1rem 0 1rem;
+          width: calc(100% - 0.5rem);
+          height: calc(100% - 0.5rem);
           display: block;
           position: absolute;
           top: 0;
           left: 0;
+          z-index: 0;
+          // -webkit-text-stroke: 1px $white;
+          font-size: 150%;
+        }
+
+        img {
+          z-index: 1;
+          position: absolute;
+          top: 75%;
+          left: 75%;
+          transform: translate(-75%,-75%);
+          display: block;
+          width: 60%;
+          height: 60%;
+          object-fit: contain;
         }
 
         &:disabled {
