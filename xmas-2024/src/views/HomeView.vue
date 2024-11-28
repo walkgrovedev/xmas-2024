@@ -52,6 +52,7 @@
         <div class="advent-door-container" v-for="(day, index) in questions" :key="index" :style="{ 'grid-area': 'd'+index }" :class="{ 'showing': getShowingDoor(day.fields.Day), 'wait': quesAnswered === false && day.fields.Day === dayQ, 'disappear': quesAnswered === true && day.fields.Day === dayQ }">
           <button class="advent-door" @click="openQuestion(day.fields.Day)" :disabled="getOpenDoor(day.fields.Day)" :class="'door'+day.fields.Day">
             <img :src="'/assets/day' + day.fields.Day + '.svg'" />
+            <img src="/assets/lock.svg" class="lock" v-if="getOpenDoor(day.fields.Day)" />
             <span v-html="day.fields.Day"></span>
           </button>
         </div>
@@ -226,7 +227,9 @@ export default {
           disabled = true; //if(ans.fields.Closed === true) 
         }
       });
-      if(_day > this.day) { // || this.month !== 12
+      let activeMth = 12;
+      if(this.testing === true) activeMth = 11;
+      if(_day > this.day || this.month !== activeMth) { //
         disabled = true;
       }
       return disabled;
@@ -746,6 +749,16 @@ export default {
 
         background-color: $white;
         // border-radius: 1rem;
+
+        .lock {
+          opacity: 0.3;
+          position: absolute;
+          top: 2rem;
+          left: calc(100% - 1.5rem);
+          width: 1rem;
+          height: 1rem;
+          object-fit: contain;
+        }
 
         &.door5, &.door22, &.door6, &.door7 {
           span {
