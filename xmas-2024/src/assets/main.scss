@@ -1,8 +1,15 @@
-@import './base.css';
 
 $title-font: "Henny Penny", system-ui;
 $body-font: "Caveat Brush", cursive;
 $btn-font: "Kranky", serif;
+
+$pale: #f7f7f3;
+$gold: #b19680;
+$dark-green: #4a6234;
+$dark-red: #d42e10;
+
+$white: #fff;
+$white-opacity: rgba(255, 255, 255, 0.8);
 
 
 #app {
@@ -34,8 +41,11 @@ button {
     box-shadow: 2px 5px black;
     text-transform: uppercase;
 
+    background-color: $dark-green;
+    color: #fff;
+
     &:hover {
-      background-color: red;
+      background-color: $dark-red;
     }
   }
 }

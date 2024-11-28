@@ -1,73 +1,79 @@
 <template>
+  <div class="main-container" :class="{ 'hide': loggedIn }">
 
-  <div class="form-container" v-if="!loggedIn && haveAccount">
-    <form @submit.prevent="logIn">
-      <div>
-        <input type="text" id="name" v-model="name" placeholder="Enter your First Name" />
-      </div>
-      <div>
-        <!-- <label for="userId">User ID:</label> -->
-        <input type="text" id="passcode" v-model="passcode" placeholder="Enter your Passcode" />
-      </div>
-      <button class="form-btn" type="submit">Enter</button>
-    </form>
-    <div class="action-button" @click="haveAccount = false" v-if="!loggedIn && haveAccount">Create a passcode</div>
-  </div>
-  
+    <div class="form-container" v-if="!loggedIn && haveAccount">
+      <form @submit.prevent="logIn">
+        <div>
+          <input type="text" id="name" v-model="name" placeholder="Enter your First Name" />
+        </div>
+        <div>
+          <!-- <label for="userId">User ID:</label> -->
+          <input type="text" id="passcode" v-model="passcode" placeholder="Enter your Passcode" />
+        </div>
+        <button class="form-btn" type="submit">Enter</button>
+      </form>
+      <div class="action-button" @click="haveAccount = false" v-if="!loggedIn && haveAccount">Create a passcode</div>
+    </div>
+    
 
-  <div class="form-container" v-if="!loggedIn && !haveAccount">
-    <form @submit.prevent="newUser">
-      <div>
-        <input type="text" id="name" v-model="name" placeholder="Enter your First Name" />
-      </div>
-      <div>
-        <input type="text" id="passcode" v-model="passcode" placeholder="Enter your Passcode" />
-      </div>
-      <div>
-        <input type="email" id="email" v-model="email" placeholder="Enter your Email" />
-      </div>
-      <button class="form-btn" type="submit">Save</button>
-    </form>
-    <div class="action-button" @click="haveAccount = true" v-if="!loggedIn && !haveAccount">Enter a passcode</div>
-  </div>
-  
+    <div class="form-container" v-if="!loggedIn && !haveAccount">
+      <form @submit.prevent="newUser">
+        <div>
+          <input type="text" id="name" v-model="name" placeholder="Enter your First Name" />
+        </div>
+        <div>
+          <input type="text" id="passcode" v-model="passcode" placeholder="Enter your Passcode" />
+        </div>
+        <div>
+          <input type="email" id="email" v-model="email" placeholder="Enter your Email" />
+        </div>
+        <button class="form-btn" type="submit">Save</button>
+      </form>
+      <div class="action-button" @click="haveAccount = true" v-if="!loggedIn && !haveAccount">Enter a passcode</div>
+    </div>
+    
 
-  <div v-html="showMessage"></div>
+    <div class="message" v-html="showMessage"></div>
 
-  <div v-if="loggedIn && !showQuestion">
+    <div v-if="loggedIn && !showQuestion" class="advent-background">
+      <img class="advent-background" src="/assets/XMAS.jpg" />
 
-    <div class="advent">
-      <div class="advent-door-container" v-for="(day, index) in questions" :key="index" :style="{ 'grid-area': 'd'+index }" :class="{ 'showing': getShowingDoor(day.fields.Day) }">
-        <button class="advent-door" v-html="day.fields.Day" @click="openQuestion(day.fields.Day)" :disabled="getOpenDoor(day.fields.Day)"></button>
+      <div class="advent">
+        <div class="advent-door-container" v-for="(day, index) in questions" :key="index" :style="{ 'grid-area': 'd'+index }" :class="{ 'showing': getShowingDoor(day.fields.Day) }">
+          <button class="advent-door" @click="openQuestion(day.fields.Day)" :disabled="getOpenDoor(day.fields.Day)">
+            <span v-html="day.fields.Day"></span>
+          </button>
+        </div>
       </div>
+
+      <!-- <h1>Users</h1>
+      <ul>
+        <li v-for="user in users" :key="user.id">
+          {{ user.fields.UID }} | {{ user.fields.Name }}
+        </li>
+      </ul>
+
+      <h1>Answers</h1>
+      <ul v-if="answers.length > 0">
+        <li v-for="ans in answers" :key="ans.id">
+          {{ ans.fields.UID }} | {{ ans.fields.Day }} | {{ ans.fields.Answer }} | {{ ans.fields.ResponseTime }} | {{ ans.fields.Closed }}
+        </li>
+      </ul> -->
     </div>
 
-    <h1>Users</h1>
-    <ul>
-      <li v-for="user in users" :key="user.id">
-        {{ user.fields.UID }} | {{ user.fields.Name }}
-      </li>
-    </ul>
+    <div v-if="loggedIn && showQuestion">
 
-    <h1>Answers</h1>
-    <ul v-if="answers.length > 0">
-      <li v-for="ans in answers" :key="ans.id">
-        {{ ans.fields.UID }} | {{ ans.fields.Day }} | {{ ans.fields.Answer }} | {{ ans.fields.ResponseTime }} | {{ ans.fields.Closed }}
-      </li>
-    </ul>
-  </div>
+      <div class="" v-html="question"></div>
+      <div class="" v-html="remainingTime"></div>
 
-  <div v-if="loggedIn && showQuestion">
+      <form @submit.prevent="saveAnswer">
+        <div>
+          <input type="text" id="answer" v-model="answer" placeholder="Enter your Answer" />
+        </div>
+        <button type="submit">Save</button>
+      </form>
 
-    <div class="" v-html="question"></div>
-    <div class="" v-html="remainingTime"></div>
-
-    <form @submit.prevent="saveAnswer">
-      <div>
-        <input type="text" id="answer" v-model="answer" placeholder="Enter your Answer" />
-      </div>
-      <button type="submit">Save</button>
-    </form>
+    </div>
 
   </div>
 
@@ -266,7 +272,8 @@ export default {
       });
     },
     async collectRecords(_tbl, table) {
-      const url = this.url + `/${table}`;
+      let url = this.url + `/${table}`;
+      if(_tbl == "questions") url += `?sort[0][field]=Order&sort[0][direction]=asc`;
         try {
           const response = await axios.get(url, {
             headers: {
@@ -287,6 +294,7 @@ export default {
               break;
             case 'questions':
               this.questions = response.data.records;
+              console.log(this.questions);
               break;
           }
         } catch (error) {
@@ -342,7 +350,9 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="scss" >
+
+@import "../assets/main.scss";
 
   @keyframes fade-in {
     0% {
@@ -358,17 +368,82 @@ export default {
 
   $fade-in: fade-in 0.5s ease-in-out;
 
-  .form-container {
-    border: 2px solid black;
-    padding: 2rem;
+  .main-container {
 
-    box-shadow: 0 0 10px black;
-   
+    font-size: 2rem;
+
+    border: 5px solid $gold;
+    width: calc(100% - 4rem);
+    height: calc(100vh - 4rem);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    &:before, &:after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+    }
+
+    &:before {
+      background: url('/assets/ribbon-green.svg');
+      background-size: contain;
+      background-position: top left;
+      background-repeat: no-repeat;
+      transform: translate(-5%, -10%);
+      width: 50%;
+      height: 50%;
+      top: 0;
+      left: 0;
+    }
+    &:after {
+      background: url('/assets/green.svg');
+      background-size: contain;
+      background-position: bottom right;
+      background-repeat: no-repeat;
+      transform: translate(0%, 10%);
+      width: 50%;
+      height: 50%;
+      bottom: 0;
+      right: 0;
+    }
+
+    &.hide {
+      &:before, &:after {
+        display: none;
+      }
+    }
+
+    .message {
+      color: $dark-red;
+      position: absolute;
+      bottom: 5%;
+    }
+  }
+
+  .form-container {
+    // border: 2px solid black;
+    padding: 2rem;
+    z-index: 1;
+    background-color: $pale;
+
+    box-shadow: 0 0 10px $gold;
+    border-radius: 2rem;
+
     form {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
+
+      input {
+        font-size: 100%;
+      }
     }
   }
 
@@ -376,22 +451,51 @@ export default {
     cursor: pointer;
     font-style: italic;
     margin-top: 2rem;
+
+    color: $dark-green;
+  }
+
+  .advent-background {
+    width: 100%;
+    height: 100%;
+
+    // background: url('/assets/XMAS.jpg');
+    // background-size: contain;
+    // background-position: top left;
+    // background-repeat: no-repeat;
+    // width: 100%;
+    // height: 100vh;
+
+    // z-index: 1;
   }
 
   .advent {
+
+    padding: 1% 0.75% 1.1% 1%;
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+
     display: grid;
+    grid-template-columns: auto auto auto;
     grid-template-areas:
-      'd0 d0 d0 d1 d1'
-      'd2 d2 d2 d2 d2'
-      'd3 d3 d4 d4 d4';
+      'd0 d0 d1 d1 d2 d2 d3 d3 d4 d4 d5 d5 d6 d6'
+      'd7 d7 d8 d8 d9 d9 d10 d10 d11 d11 d12 d12 d13 d13'
+      'd14 d14 d15 d15 d16 d16 d17 d17 d18 d18 d19 d19 d20 d20'
+      'd21 d21 d22 d22 d23 d23 d23 d23 d23 d24 d24 d24 d24 d24';
     gap: 0px;
-    background-color: blue;
-    padding: 0px;
+    // background-color: blue;
+    // padding: 0px;
 
     .advent-door-container {
-      background-color: rgba(255, 255, 255, 0.8);
+      // background-color: $white-opacity;
       text-align: center;
-      padding: 10px;
+      // padding: 10px;
+      margin: 5px;
       font-size: 30px;
 
       opacity: 0;
@@ -402,11 +506,34 @@ export default {
       .advent-door {
         width: 100%;
         height: 100%;
+
+        text-align: left;
+
+        font-size: 110%;
+        color: $dark-green;
+
         background-color: transparent;
+        position: relative;
+        // transform: translate(0%, -5px);
+
         cursor: pointer;
         border: none;
-        transform: translate(0%,-7px);
-        padding: 0;
+        margin: 0;
+        padding: 0 0.5rem;
+
+        span {
+          // transform: translate(0%,-100%);
+          padding: 1rem;
+          box-sizing: border-box;
+          background-color: $white-opacity; //$white;
+          border-radius: 1rem;
+          width: 100%;
+          height: 100%;
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
 
         &:disabled {
           cursor: default;
