@@ -79,12 +79,13 @@
 
       <div class="question">
 
-        <div class="" v-html="question"></div>
+        <div class="question-title">Question</div>
+        <div class="question-stem" v-html="question"></div>
         <div class="timer" v-html="remainingTime"></div>
 
         <form @submit.prevent="saveAnswer">
           <div>
-            <input type="text" id="answer" v-model="answer" placeholder="Answer" style="width: 100px"/>
+            <input type="text" id="answer" v-model="answer" placeholder="Answer" style="width: 10rem"/>
           </div>
           <button class="form-btn" type="submit">Save</button>
         </form>
@@ -157,6 +158,7 @@ export default {
       userTbl: 'tbl6E2lNlkDVCjoXG',
       answTbl: 'tblAg38MzzwieSN0k',
       quesTbl: 'tblmLkhbn5c4ObeCL',
+      timerSeconds: 20,
       testing: true,
       monthActive: 12
     };
@@ -213,6 +215,7 @@ export default {
     },
     openQuestion(_day) {
       this.dayQ = _day;
+      this.answer = null;
       this.showQuestion = true;
       this.quesAnswered = false;
       this.questions.forEach(ques => {
@@ -270,7 +273,7 @@ export default {
       
       this.addRecord(userRecord, this.answTbl);
 
-      this.remainingTime = 10;
+      this.remainingTime = this.timerSeconds;
       this.timer = setInterval(this.countdown, 1000);
 
     },
@@ -581,6 +584,18 @@ export default {
 
         box-shadow: 0 0 10px $gold;
         border-radius: 2rem;
+
+        .question-title {
+          color: $dark-red;
+          font-size: 150%;
+        }
+
+        .question-stem {
+          font-family: 'Open sans', sans-serif;
+          font-size: 60%;
+          font-weight: 200;
+          margin: 2rem 0;
+        }
 
         input {
           font-size: 100%;
