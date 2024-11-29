@@ -209,6 +209,11 @@ export default {
     },
     newUser() {
       this.showMessage = "";
+      // all fields have data?
+      if(this.name === "" || this.name === null || this.passcode === "" || this.passcode === null || this.email === "" || this.email === null) {
+        this.showMessage += "Please enter your details into each field.";
+        return;
+      }
       // check not already in the table!
       let pexists = false;
       let eexists = false;
@@ -217,7 +222,7 @@ export default {
         if(user.fields.Email === this.email) eexists = true;
       });
       if(eexists) this.showMessage += "You've already set up a passcode for this email! Please <strong>Enter a passcode</strong> or <strong>ask Laura</strong> what it is :O)";
-      if(pexists) this.showMessage += "Unavailable Passcode! Please choose another.";
+      if(!eexists && pexists) this.showMessage += "Unavailable Passcode! Please choose another.";
       if(eexists || pexists) return;
       //add the user
       const userRecord = {
@@ -535,13 +540,13 @@ export default {
     }
 
     .welcome-container {
-      padding: 2rem;
+      padding: 1rem 2rem;
       text-align: center;
       z-index: 1;
       // max-width: 50%;
       background: $white-opacity;
       border-radius: 2rem;
-      margin-bottom: 1rem
+      // margin-bottom: 1rem
     }
 
     .info-container {
@@ -633,6 +638,7 @@ export default {
       color: $dark-red;
       position: absolute;
       bottom: 1%;
+      font-size: 80%;
     }
   }
 
@@ -730,7 +736,7 @@ export default {
 
   .form-container {
     // border: 2px solid black;
-    padding: 2rem;
+    padding: 1rem 2rem;
     z-index: 1;
     background-color: $pale;
 
@@ -781,9 +787,10 @@ export default {
     // max-height: 100vh;
     width: 100%;
     height: auto;
+    max-height: 100%;
     box-sizing: border-box;
 
-    max-width: 1440px;
+    max-width: 1280px;//1440px;
 
     opacity: 0;
     &.show {
@@ -794,7 +801,7 @@ export default {
   }
 
   .advent-background {
-
+    max-height: 100%;
     width: 100%;
     height: auto;
     box-sizing: border-box;
@@ -854,6 +861,8 @@ export default {
       .advent-door {
         width: 100%;
         height: 100%;
+
+        // opacity: 0.5;
 
         text-align: left;
 
