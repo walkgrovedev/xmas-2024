@@ -175,7 +175,7 @@ export default {
       answTbl: 'tblAg38MzzwieSN0k',
       quesTbl: 'tblmLkhbn5c4ObeCL',
       timerSeconds: 20,
-      testing: true,
+      testing: false,
       monthActive: 12
     };
   },
@@ -186,7 +186,7 @@ export default {
       let exists = false;
       
       this.users.forEach(user => {
-        if(user.fields.Name === this.name) {
+        if(user.fields.Name.toLowerCase() === this.name.toLowerCase()) {
           if(user.fields.UserID === this.passcode) {
             exists = true;
             this.uid = user.fields.UID;
@@ -643,6 +643,14 @@ export default {
       position: absolute;
       bottom: 1%;
       font-size: 80%;
+      max-width: 80%;
+
+      padding: 0.5rem 1rem;
+      text-align: center;
+      z-index: 1;
+      // max-width: 50%;
+      background: $white-opacity;
+      border-radius: 2rem;
     }
   }
 
