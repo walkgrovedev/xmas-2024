@@ -207,7 +207,7 @@ export default {
       window.localStorage.setItem('xmas-2024', JSON.stringify({name: this.name, passcode: this.passcode}));
       this.getRecords(['questions']);
     },
-    newUser() {
+    async newUser() {
       this.showMessage = "";
       // all fields have data?
       if(this.name === "" || this.name === null || this.passcode === "" || this.passcode === null || this.email === "" || this.email === null) {
@@ -224,6 +224,10 @@ export default {
       if(eexists) this.showMessage += "You've already set up a passcode for this email! Please <strong>Enter a passcode</strong> or <strong>ask Laura</strong> what it is :O)";
       if(!eexists && pexists) this.showMessage += "Unavailable Passcode! Please choose another.";
       if(eexists || pexists) return;
+
+      this.day = new Date().getDate();
+      this.month = new Date().getMonth() + Number(1);
+
       //add the user
       const userRecord = {
         fields: {
@@ -644,7 +648,7 @@ export default {
 
   .help-btn {
     background-color: transparent;
-    background: url('assets/question-circle.svg');
+    background: url('/assets/question-circle.svg');
     background-size: contain;
     background-repeat: no-repeat;
     width: 3rem;
