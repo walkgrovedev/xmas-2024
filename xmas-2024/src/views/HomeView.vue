@@ -4,7 +4,20 @@
     <div class="welcome-container" v-if="!loggedIn">
       <div class='title'>Welcome</div>
       <div class="body">To our 2024 Advent Calendar Quiz!</div>
-      <div class="body-small">Login to view the advent calendar.<br/>Select a door to answer the question - a new door will unlock each day! :0)</div>
+      <!-- <div class="body-small">Login to view the advent calendar.<br/>Select a door to answer the question - a new door will unlock each day! :0)</div> -->
+    </div>
+
+    <div class="info-container" v-if="loggedIn && !seenIntro">
+      <div class="fade"></div>
+      <div class="info">
+        <div class='title'>How to play</div>
+        <div class="body-small">&nbsp;<br/>A new door will unlock every day.<br/>Select a door and answer the question in <strong>{{timerSeconds}}</strong> seconds.<br/>Don't worry if you miss a day, you can come back at any time to catch up.<br/><br/>Every question selected, reveals a bit more ...</div>
+        <div class="body red">Scoring</div>
+        <div class="body-small">All answers are almost impossible to know - so the nearest answer, in the fastest time, wins each day.<br/><br/>Those with the most 'day wins' win a prize.</div>
+        <div class="body red">Prizes!</div>
+        <div class="body-small">There will be voucher prizes for <strong>1st</strong>, <strong>2nd</strong> and <strong>3rd</strong> place.<br/>&nbsp;</div>
+        <button class="form-btn" @click="seenIntro = true">Play</button>  
+      </div>
     </div>
 
     <div class="form-container" v-if="!loggedIn && haveAccount">
@@ -12,15 +25,15 @@
       <div class="form-body">Ensure your details are entered below, then select Enter!</div>
       <form @submit.prevent="logIn">
         <div>
-          <input type="text" id="name" v-model="name" placeholder="Enter your First Name" />
+          <input type="text" id="name" v-model="name" placeholder="First Name" />
         </div>
         <div>
           <!-- <label for="userId">User ID:</label> -->
-          <input type="text" id="passcode" v-model="passcode" placeholder="Enter your Passcode" />
+          <input type="text" id="passcode" v-model="passcode" placeholder="Passcode" />
         </div>
         <button class="form-btn" type="submit">Enter</button>
       </form>
-      <div class="action-button" @click="haveAccount = false" v-if="!loggedIn && haveAccount">Create a passcode</div>
+      <div class="action-button" @click="haveAccount = false" v-if="!loggedIn && haveAccount">Create a login</div>
     </div>
     
 
@@ -29,23 +42,25 @@
       <div class="form-body">Enter your details below - you'll only have to do this once.<br/>The passcode can be anything you wish and will save automatically to your browser.</div>
       <form @submit.prevent="newUser">
         <div>
-          <input type="text" id="name" v-model="name" placeholder="Enter your First Name" />
+          <input type="text" id="name" v-model="name" placeholder="First Name" />
         </div>
         <div>
-          <input type="text" id="passcode" v-model="passcode" placeholder="Enter your Passcode" />
+          <input type="text" id="passcode" v-model="passcode" placeholder="Passcode" />
         </div>
         <div>
-          <input type="email" id="email" v-model="email" placeholder="Enter your Email" />
+          <input type="email" id="email" v-model="email" placeholder="Email" />
         </div>
         <button class="form-btn" type="submit">Save</button>
       </form>
-      <div class="action-button" @click="haveAccount = true" v-if="!loggedIn && !haveAccount">Enter a passcode</div>
+      <div class="action-button" @click="haveAccount = true" v-if="!loggedIn && !haveAccount">Login with a passcode</div>
     </div>
     
 
     <div class="message" v-html="showMessage"></div>
 
-    <div v-if="loggedIn" class="advent-container" :load="setHeightWidths()" :class="{ 'show': dataLoaded }">
+    <button class="help-btn" @click="seenIntro = false" v-if="loggedIn && seenIntro"></button>
+
+    <div v-if="loggedIn" class="advent-container" :load="setHeightWidths()" :class="{ 'show': dataLoaded }" >
       <img ref="adventBgEl" id="adventBgEl" class="advent-background" src="/assets/XMAS.jpg" />
 
       <div class="advent" ref="adventEl" id="adventEl">
@@ -134,6 +149,7 @@ export default {
     return {
       loggedIn: false,
       haveAccount: false,
+      seenIntro: false,
       showQuestion: false,
       dataLoaded: false,
       quesAnswered: false,
@@ -401,6 +417,7 @@ export default {
     }
   },
   mounted() {
+    // window.localStorage.removeItem('xmas-2024');
     this.day = new Date().getDate();
     const suspendString = window.localStorage.getItem('xmas-2024');
     if (suspendString !== null) {
@@ -408,6 +425,7 @@ export default {
       this.name = suspendObject.name;
       this.passcode = suspendObject.passcode;
       this.haveAccount = true;
+      this.seenIntro = true;
     }
     this.getRecords(['users','answers']);
   },
@@ -526,6 +544,76 @@ export default {
       margin-bottom: 1rem
     }
 
+    .info-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      z-index: 2;
+
+      .fade {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        background-color: $white-opacity;
+        pointer-events: none;
+      }
+
+      .form-btn {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 50%);
+      }
+
+      .info {
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+
+        padding: 2rem;
+        z-index: 5;
+        background-color: $pale;
+
+        box-shadow: 0 0 10px $gold;
+        border-radius: 2rem;
+
+        text-align: center;
+
+        width: 50%;
+        @media(max-width: 1024px){
+          width: 75%;
+        }
+        
+
+        .title {
+          color: $leaf-green;
+          font-size: 150%;
+        }
+
+        .body {
+          padding: 1rem 0;
+
+          &.red {
+            color: $dark-red;
+          }
+        }
+
+        .body-small {
+          font-family: 'Open sans', sans-serif;
+          font-size: 60%;
+          font-weight: 200;
+        }
+      }
+    }
+
     .title {
       color: $leaf-green;
       font-size: 150%;
@@ -546,6 +634,23 @@ export default {
       position: absolute;
       bottom: 1%;
     }
+  }
+
+  .help-btn {
+    background-color: transparent;
+    background: url('assets/question-circle.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    border: none;
+
+    position: absolute;
+    bottom: 1rem;
+    left:1rem;
+
+    z-index: 10;
   }
 
   .question-container {
