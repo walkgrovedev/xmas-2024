@@ -11,8 +11,8 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/b615o',
-      name: 'boo',
+      path: '/@n5w3rS',
+      name: 'answers',
       component: AnswerView,
     },
   ],
