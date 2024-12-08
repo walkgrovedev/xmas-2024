@@ -205,7 +205,7 @@ export default {
       this.loggedIn = true;
 
       window.localStorage.setItem('xmas-2024', JSON.stringify({name: this.name, passcode: this.passcode}));
-      this.getRecords(['questions']);
+      this.getRecords(['answers','questions']);
     },
     async newUser() {
       this.showMessage = "";
@@ -362,6 +362,7 @@ export default {
     },
     async collectRecords(_tbl, table) {
       let url = this.url + `/${table}`;
+      if(_tbl == "answers") url += `?filterByFormula={UID} = "` + this.uid + `"`;
       if(_tbl == "questions") url += `?sort[0][field]=Order&sort[0][direction]=asc`;
         try {
           const response = await axios.get(url, {
@@ -380,6 +381,7 @@ export default {
               break;
             case 'answers':
               this.answers = response.data.records;
+              console.log(this.answers);
               break;
             case 'questions':
               this.questions = response.data.records;
@@ -403,7 +405,7 @@ export default {
         if(!this.loggedIn) {
           this.loggedIn = true;
           window.localStorage.setItem('xmas-2024', JSON.stringify({name: this.name, passcode: this.passcode}));
-          this.getRecords(['questions']);
+          this.getRecords(['answers','questions']);
         }
       } catch (error) {
         console.error('Error adding record:', error);
@@ -436,7 +438,7 @@ export default {
       this.haveAccount = true;
       this.seenIntro = true;
     }
-    this.getRecords(['users','answers']);
+    this.getRecords(['users']);
   },
 };
 </script>
