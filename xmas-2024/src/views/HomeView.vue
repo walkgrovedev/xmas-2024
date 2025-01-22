@@ -250,7 +250,7 @@ export default {
     },
     getOpenDoor(_day) {
       let disabled = false;
-      this.answers.forEach(ans => {
+      /*this.answers.forEach(ans => {
         if(ans.fields.UID === this.uid && ans.fields.Day === _day) {
           disabled = true; //if(ans.fields.Closed === true) 
         }
@@ -259,7 +259,7 @@ export default {
       if(this.testing === true) activeMth = 11;
       if(_day > this.day || this.month !== activeMth) { //
         disabled = true;
-      }
+      }*/
       return disabled;
     },
     getShowingDoor(_day) {
@@ -381,7 +381,7 @@ export default {
               break;
             case 'answers':
               this.answers = response.data.records;
-              console.log(this.answers);
+              // console.log(this.answers);
               break;
             case 'questions':
               this.questions = response.data.records;

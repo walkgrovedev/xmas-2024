@@ -71,6 +71,8 @@ export default {
       userTbl: 'tbl6E2lNlkDVCjoXG',
       answTbl: 'tblAg38MzzwieSN0k',
       quesTbl: 'tblmLkhbn5c4ObeCL',
+      error: '',
+      loading: ''
     };
   },
   methods: {
@@ -92,9 +94,42 @@ export default {
       });
     },
     async collectRecords(_tbl, table) {
-      let url = this.url + `/${table}`;
-      if(_tbl == "questions") url += `?sort[0][field]=Day&sort[0][direction]=asc`;
-      if(_tbl == "answers") url += `?sort[0][field]=Answer&sort[0][direction]=asc`;
+      if(_tbl === 'answers') {
+
+        let url = this.url + `/${table}`;
+        url += `?sort[0][field]=Answer&sort[0][direction]=asc`;
+
+        this.loading = true;
+        this.error = null;
+
+        let offset = null;
+        try {
+          do {
+            const params = offset ? { offset } : {};
+            const response = await axios.get(url, {
+              headers: {
+                Authorization: `Bearer ${this.personalAccessToken}`,
+              },
+              params,
+            });
+
+            // Append records
+            this.answers.push(...response.data.records);
+
+            // Update offset for pagination
+            offset = response.data.offset;
+          } while (offset); // Continue while there's an offset
+
+        } catch (err) {
+          this.error = "Failed to fetch records: " + err.message;
+        } finally {
+          this.loading = false;
+        }
+
+      } else {
+
+        let url = this.url + `/${table}`;
+        if(_tbl == "questions") url += `?sort[0][field]=Day&sort[0][direction]=asc`;
         try {
           const response = await axios.get(url, {
             headers: {
@@ -105,9 +140,6 @@ export default {
             case 'users':
               this.users = response.data.records;
               break;
-            case 'answers':
-              this.answers = response.data.records;
-              break;
             case 'questions':
               this.questions = response.data.records;
               break;
@@ -115,6 +147,9 @@ export default {
         } catch (error) {
           console.error('Error fetching Airtable data:', error);
         }
+
+      }
+      
     },
     getUserName(_uid) {
       let name = "";
@@ -126,7 +161,9 @@ export default {
       return name;
     },
     getAnswersByDay(_day) {
+      console.log(_day);
       let answers = [];
+      console.log(this.answers);
       this.answers.forEach(ans => {
         if(ans.fields.Day === _day) {
           answers.push(ans);
